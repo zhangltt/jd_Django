@@ -1,0 +1,45 @@
+{%extends 'userbash.html'%}
+
+{%block uhead%}
+<link rel="stylesheet" href="/static/style/user.css" type="text/css">
+{%endblock uhead%}
+
+
+
+{%block right%}
+<!-- 右侧内容区域 start -->
+<div class="content fl ml10">
+    <div class="user_hd">
+        <h3>账户信息</h3>
+    </div>
+
+    <div class="user_bd mt10">
+        <form action="" method="post">
+            <ul>
+                <li>
+                    <label for="">用户名：</label>
+                    <strong>{{dbuser}}</strong>
+                </li>
+                <li>
+                    <label for="">昵称：</label>
+                    <input type="text" class="txt" value=""/>
+                </li>
+                <li>
+                    <label for="">邮箱：</label>
+                    <strong>{{dbemail}}</strong>
+                </li>
+                <li>
+                    <label for="">手机号码：</label>
+                    <input type="text" class="txt" value="{{dbphone}}" />
+                </li>
+                <li>
+                    <label for="">&nbsp;</label>
+                    <input type="submit" value="提交" class="sbtn" />
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- 右侧内容区域 end -->
+{%endblock right%}
+

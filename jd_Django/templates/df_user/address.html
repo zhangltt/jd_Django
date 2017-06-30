@@ -1,0 +1,132 @@
+{%extends 'userbash.html'%}
+
+{%block uhead%}
+<link rel="stylesheet" href="/static/style/address.css" type="text/css">
+
+
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('.content .address_hd dl').each(function(){
+            var cur = $(this)
+            var del_a =  $(this).find('dd').children('a').eq(1)
+            // status '1' 删除  '2' 修改 '3' 设置
+                // 删除
+            del_a.click(function(){
+                $.get('/user/api/update/',{'addr_id':del_a.next().val(),'status':'1'},function(data){
+                   if(data.result == 'ok')
+                   {
+                     cur.remove();
+                   }
+
+                });
+            });
+            // 设置
+            del_a.next().next().click(function(){
+
+                $.get('/user/api/update/',{'addr_id':del_a.next().val(),'status':'3'},function(data){
+
+                    if(data.result == 'ok')
+                   {
+                     cur.remove();
+                   }
+
+                });
+
+            });
+//-------------------------------------end each-------------------------------------------------------
+        });
+//--------------------------------------------------------------------------------------------
+    });
+
+</script>
+
+{%endblock uhead%}
+
+{%block right%}
+
+<!-- 右侧内容区域 start -->
+		<div class="content fl ml10">
+			<div class="address_hd">
+				<h3>收货地址薄</h3>
+                {%for addr in addr_list%}
+				<dl>
+					<dt>{{forloop.counter}}.{{addr.consignee}} {{addr.address}} {{addr.iphone}} </dt>
+					<dd>
+						<a href="javascript:;">修改</a>
+						<a href="javascript:;">删除</a>
+                        <input type="hidden" name="del" value="{{addr.id}}">
+						<a href="javascript:;">设为默认地址</a>
+					</dd>
+				</dl>
+                {%empty%}
+                <p style="margin-bottom: 20px;margin-left: 20px;">暂无收货地址</p>
+                {%endfor%}
+
+
+			</div>
+
+			<div class="address_bd mt10">
+				<h4>新增/修改收货地址</h4>
+				<form method="post" action="/user/api/add/" name="address_form">
+                    {%csrf_token%}
+						<ul>
+							<li>
+								<label for=""><span>*</span>收 货 人：</label>
+								<input type="text" name="consignee" class="txt" />
+							</li>
+							<li>
+								<label for=""><span>*</span>所在地区：</label>
+								<select name="city" id="">
+									<option value="">请选择</option>
+									<option value="北京">北京</option>
+									<option value="上海">上海</option>
+									<option value="天津">天津</option>
+									<option value="重庆">重庆</option>
+									<option value="武汉">武汉</option>
+								</select>
+
+								<select name="area1" id="">
+									<option value="">请选择</option>
+									<option value="朝阳区">朝阳区</option>
+									<option value="东城区">东城区</option>
+									<option value="西城区">西城区</option>
+									<option value="海淀区">海淀区</option>
+									<option value="昌平区">昌平区</option>
+								</select>
+
+								<select name="area2" id="">
+									<option value="">请选择</option>
+									<option value="西二旗">西二旗</option>
+									<option value="西三旗">西三旗</option>
+									<option value="三环以内">三环以内</option>
+								</select>
+							</li>
+							<li>
+								<label for=""><span>*</span>详细地址：</label>
+								<input type="text" name="detailAddr" class="txt address"  />
+							</li>
+							<li>
+								<label for=""><span>*</span>手机号码：</label>
+								<input type="text" name="iphone" class="txt" />
+							</li>
+							<li>
+								<label for="">&nbsp;</label>
+								<input type="checkbox" name="default" value="1" class="check" />设为默认地址
+							</li>
+							<li>
+								<label for="">&nbsp;</label>
+								<input type="submit" name="" class="btn" value="保存" />
+							</li>
+						</ul>
+					</form>
+			</div>
+
+		</div>
+		<!-- 右侧内容区域 end -->
+
+
+
+{%endblock right%}
